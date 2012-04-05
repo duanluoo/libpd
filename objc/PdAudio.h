@@ -38,7 +38,8 @@
 
 #import "PdBase.h"
 
-__attribute__((deprecated))
+// PdAudio - original class for interfacing libpd and UIKit
+// Warning! Deprecated and will not update, will remove soon.
 @interface PdAudio : NSObject {
   AudioUnit audioUnit;
   int ticksPerBuffer;
@@ -71,7 +72,7 @@ __attribute__((deprecated))
  * for use with armv6 devices
  */
 - (id)initWithSampleRate:(float)newSampleRate andTicksPerBuffer:(int)ticks 
-    andNumberOfInputChannels:(int)inputChannels andNumberOfOutputChannels:(int)outputChannels;
+    andNumberOfInputChannels:(int)inputChannels andNumberOfOutputChannels:(int)outputChannels __attribute__((deprecated));
 
 /** Initialising with a sample rate, ticks per buffer, number of input and output channels
  * and AudioSession Category
@@ -85,7 +86,7 @@ __attribute__((deprecated))
  */
 - (id)initWithSampleRate:(float)newSampleRate andTicksPerBuffer:(int)ticks 
 	andNumberOfInputChannels:(int)inputChannels andNumberOfOutputChannels:(int)outputChannels
-	andAudioSessionCategory:(UInt32)audioSessionCategory;
+	andAudioSessionCategory:(UInt32)audioSessionCategory __attribute__((deprecated));
 
 /** Begin audio/scene playback. To avoid clicks, you have to create a subclass and override this 
  * function and add ramping or any other custom behaviour. Make sure to call the superclass method

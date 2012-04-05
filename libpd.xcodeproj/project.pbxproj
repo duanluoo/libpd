@@ -431,10 +431,9 @@
 			children = (
 				110E6DCC147B833B00282ABC /* audio */,
 				113A449E138139E1004C88F9 /* utils */,
+				11E1E559152E34B1004D55F6 /* deprecated */,
 				58DDDC341476374300450A0A /* ringbuffer.c */,
 				58DDDC351476374300450A0A /* ringbuffer.h */,
-				0E82A0A812EEFE5E0053280E /* PdAudio.h */,
-				0E82A0A912EEFE5E0053280E /* PdAudio.m */,
 				0E82A0AA12EEFE5E0053280E /* PdBase.h */,
 				0E82A0AB12EEFE5E0053280E /* PdBase.m */,
 			);
@@ -477,6 +476,15 @@
 			);
 			path = cpp;
 			sourceTree = SOURCE_ROOT;
+		};
+		11E1E559152E34B1004D55F6 /* deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				0E82A0A812EEFE5E0053280E /* PdAudio.h */,
+				0E82A0A912EEFE5E0053280E /* PdAudio.m */,
+			);
+			name = deprecated;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
