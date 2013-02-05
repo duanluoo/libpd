@@ -3,19 +3,19 @@
   <PropertyGroup>
     <ProjectGuid>{56E27175-956F-4182-8A74-5DE0CC1FCDC2}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>LibPDBinding</RootNamespace>
     <AssemblyName>LibPDBinding</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
@@ -42,17 +42,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\LibPDManager.cs" />
-    <Compile Include="Model\LibPDMessage.cs" />
-    <Compile Include="Model\LibPDPatch.cs" />
     <Compile Include="Native\LibPDNativeMessaging.cs" />
     <Compile Include="Native\LibPDNativeMethods.cs" />
     <Compile Include="Native\LibPDNativeMidi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\libs\libpd.dll">
-      <Link>libpd.dll</Link>
+    <None Include="..\libs\libpdcsharp.dll">
+      <Link>libpdcsharp.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\libs\pthreadGC2.dll">
@@ -61,7 +58,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model" />
     <Folder Include="Native" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />

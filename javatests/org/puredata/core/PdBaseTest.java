@@ -116,6 +116,7 @@ public class PdBaseTest {
 		PdBase.sendFloat("foo", 0);
 		PdBase.sendFloat("foo", 42);
 		PdBase.sendSymbol("foo", "don't panic");
+		PdBase.pollPdMessageQueue();
 		EasyMock.verify(receiver);
 	}
 
@@ -138,6 +139,7 @@ public class PdBaseTest {
 		PdBase.sendList("spam", "hund", 1, "katze", 2.5, "maus", 3.1f);
 		PdBase.sendMessage("spam", "testing", "one", 1, "two", 2);
 		PdBase.sendList("spam", longList);
+		PdBase.pollPdMessageQueue();
 		EasyMock.verify(receiver);
 	}
 	
@@ -167,6 +169,7 @@ public class PdBaseTest {
 		assertEquals(-1, PdBase.sendNoteOn(30, 10, -1));
 		assertEquals(-1, PdBase.sendNoteOn(12, 128, 127));
 		assertEquals(-1, PdBase.sendNoteOn(30, 10, 128));
+		PdBase.pollMidiQueue();
 		EasyMock.verify(midiReceiver);
 	}
 
@@ -184,6 +187,7 @@ public class PdBaseTest {
 		assertEquals(-1, PdBase.sendControlChange(30, 10, -1));
 		assertEquals(-1, PdBase.sendControlChange(12, 128, 127));
 		assertEquals(-1, PdBase.sendControlChange(30, 10, 128));
+		PdBase.pollMidiQueue();
 		EasyMock.verify(midiReceiver);
 	}
 
@@ -201,6 +205,7 @@ public class PdBaseTest {
 		assertEquals(-1, PdBase.sendPolyAftertouch(30, 10, -1));
 		assertEquals(-1, PdBase.sendPolyAftertouch(12, 128, 127));
 		assertEquals(-1, PdBase.sendPolyAftertouch(30, 10, 128));
+		PdBase.pollMidiQueue();
 		EasyMock.verify(midiReceiver);
 	}
 
@@ -216,6 +221,7 @@ public class PdBaseTest {
 		assertEquals(-1, PdBase.sendProgramChange(-1, 64));
 		assertEquals(-1, PdBase.sendProgramChange(12, -1));
 		assertEquals(-1, PdBase.sendProgramChange(10, 128));
+		PdBase.pollMidiQueue();
 		EasyMock.verify(midiReceiver);
 	}
 
@@ -231,6 +237,7 @@ public class PdBaseTest {
 		assertEquals(-1, PdBase.sendAftertouch(-1, 64));
 		assertEquals(-1, PdBase.sendAftertouch(12, -1));
 		assertEquals(-1, PdBase.sendAftertouch(10, 128));
+		PdBase.pollMidiQueue();
 		EasyMock.verify(midiReceiver);
 	}
 
@@ -250,6 +257,25 @@ public class PdBaseTest {
 		assertEquals(-1, PdBase.sendPitchBend(-1, 64));
 		assertEquals(-1, PdBase.sendPitchBend(12, -8193));
 		assertEquals(-1, PdBase.sendPitchBend(12, 8192));
+		PdBase.pollMidiQueue();
+		EasyMock.verify(midiReceiver);
+	}
+	
+	@Test
+	public void testMidiByte() {
+		midiReceiver.receiveMidiByte(1, 144);
+		midiReceiver.receiveMidiByte(1, 48);
+		midiReceiver.receiveMidiByte(1, 127);
+		midiReceiver.receiveMidiByte(2, 0);
+		EasyMock.replay(midiReceiver);
+		assertEquals(0, PdBase.sendMidiByte(1, 144));
+		assertEquals(0, PdBase.sendMidiByte(1, 48));
+		assertEquals(0, PdBase.sendMidiByte(1, 127));
+		assertEquals(0, PdBase.sendMidiByte(2, 0));
+		assertEquals(-1, PdBase.sendMidiByte(2, -1));
+		assertEquals(-1, PdBase.sendMidiByte(2, 256));
+		assertEquals(-1, PdBase.sendMidiByte(-1, 0));
+		PdBase.pollMidiQueue();
 		EasyMock.verify(midiReceiver);
 	}
 	
