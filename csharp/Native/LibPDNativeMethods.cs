@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
@@ -85,12 +85,12 @@ namespace LibPDBinding
 		private static Dictionary<int, IntPtr> Patches = new Dictionary<int, IntPtr>();
 		
 		/// Init PD
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_init")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_init", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void libpd_init() ;
 
 				
 		/// Return Type: void
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_clear_search_path")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_clear_search_path", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void clear_search_path() ;
 		
 		/// <summary>
@@ -105,7 +105,7 @@ namespace LibPDBinding
 		
 		/// Return Type: void
 		///sym: char*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_add_to_search_path")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_add_to_search_path", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void add_to_search_path([In] [MarshalAs(UnmanagedType.LPStr)] string sym) ;
 		
 		/// <summary>
@@ -121,7 +121,7 @@ namespace LibPDBinding
 		/// Return Type: void*
 		///basename: char*
 		///dirname: char*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_openfile")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_openfile", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  IntPtr openfile([In] [MarshalAs(UnmanagedType.LPStr)] string basename, [In] [MarshalAs(UnmanagedType.LPStr)] string dirname) ;
 		
 		/// <summary>
@@ -154,7 +154,7 @@ namespace LibPDBinding
 
 		/// Return Type: void
 		///p: void*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_closefile")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_closefile", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void closefile(IntPtr p) ;
 		
 		/// <summary>
@@ -173,13 +173,13 @@ namespace LibPDBinding
 		
 		/// Return Type: int
 		///p: void*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_getdollarzero")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_getdollarzero", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int getdollarzero(IntPtr p) ;
 
 				
 		/// Return Type: int
 		///sym: char*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_exists")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_exists", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int exists([In] [MarshalAs(UnmanagedType.LPStr)] string sym) ;
 
 		/// <summary>
@@ -239,7 +239,7 @@ namespace LibPDBinding
 		}
 		
 		/// Return Type: int
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_blocksize")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_blocksize", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int blocksize() ;
 		
 		/// <summary>
@@ -255,7 +255,7 @@ namespace LibPDBinding
 			}
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_init_audio")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_init_audio", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int init_audio(int inputChannels, int outputChannels, int sampleRate) ;
 		
 		/// <summary>
@@ -274,7 +274,7 @@ namespace LibPDBinding
 		/// Return Type: int
 		///inBuffer: float*
 		///outBuffer: float*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_raw")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_raw", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int process_raw([In] float[] inBuffer, [Out] float[] outBuffer) ;
 
 		/// <summary>
@@ -293,7 +293,7 @@ namespace LibPDBinding
 			return process_raw(inBuffer, outBuffer);
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_raw")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_raw", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern  int process_raw(float* inBuffer, float* outBuffer) ;
 
 		/// <summary>
@@ -318,7 +318,7 @@ namespace LibPDBinding
 		///ticks: int
 		///inBuffer: short*
 		///outBuffer: short*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_short")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_short", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int process_short(int ticks, [In] short[] inBuffer, [Out] short[] outBuffer) ;
 		
 		/// <summary>
@@ -339,7 +339,7 @@ namespace LibPDBinding
 			return process_short(ticks, inBuffer, outBuffer);
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_short")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_short", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern  int process_short(int ticks, short* inBuffer, short* outBuffer) ;
 		
 		/// <summary>
@@ -367,7 +367,7 @@ namespace LibPDBinding
 		///ticks: int
 		///inBuffer: float*
 		///outBuffer: float*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_float")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_float", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int process_float(int ticks, [In] float[] inBuffer, [Out] float[] outBuffer) ;
 
 		/// <summary>
@@ -388,7 +388,7 @@ namespace LibPDBinding
 			return process_float(ticks, inBuffer, outBuffer);
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_float")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_float", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern  int process_float(int ticks, float* inBuffer, float* outBuffer) ;
 
 		/// <summary>
@@ -415,7 +415,7 @@ namespace LibPDBinding
 		///ticks: int
 		///inBuffer: double*
 		///outBuffer: double*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_double")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_double", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int process_double(int ticks, [In] double[] inBuffer, [Out] double[] outBuffer) ;
 		
 		/// <summary>
@@ -436,7 +436,7 @@ namespace LibPDBinding
 			return process_double(ticks, inBuffer, outBuffer);
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_double")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_process_double", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern int process_double(int ticks, double* inBuffer, double* outBuffer) ;
 		
 		/// <summary>
@@ -465,7 +465,7 @@ namespace LibPDBinding
 		
 		/// Return Type: int
 		///name: char*
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_arraysize")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_arraysize", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int arraysize([In] [MarshalAs(UnmanagedType.LPStr)] string name) ;
 		
 		/// <summary>
@@ -480,7 +480,7 @@ namespace LibPDBinding
 		}
 		
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_read_array")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_read_array", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int read_array([Out] float[] dest, [In] [MarshalAs(UnmanagedType.LPStr)] string src, int offset, int n) ;
 
 		/// <summary>
@@ -503,7 +503,7 @@ namespace LibPDBinding
 		}
 		
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_read_array")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_read_array", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern  int read_array(float* dest, [In] [MarshalAs(UnmanagedType.LPStr)] string src, int offset, int n) ;
 
 		/// <summary>
@@ -522,7 +522,7 @@ namespace LibPDBinding
 			return read_array(destination, source, srcOffset, n);
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_write_array")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_write_array", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int write_array([In] [MarshalAs(UnmanagedType.LPStr)] string dest, int offset, [In] float[] src, int n) ;
 		
 		/// <summary>
@@ -544,7 +544,7 @@ namespace LibPDBinding
 			return write_array(destination, destOffset, source, n);
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_write_array")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_write_array", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern int write_array([In] [MarshalAs(UnmanagedType.LPStr)] string dest, int offset, float* src, int n) ;
 		
 		/// <summary>
