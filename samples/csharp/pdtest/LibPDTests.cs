@@ -57,7 +57,7 @@ namespace LibPDBindingTest
 		[Test]
 		public virtual void testDollarZero ()
 		{
-			Assert.AreEqual (1002, SPatch);
+			Assert.AreEqual (1003, SPatch);
 		}
 
 		[Test]
