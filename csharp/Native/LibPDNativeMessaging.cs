@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
@@ -66,22 +66,22 @@ namespace LibPDBinding
 		private static LibPDMessageHook MessageHook;
 		
 		//import hook set method
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_printhook")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_printhook", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void set_printhook(LibPDPrintHook hook);
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_banghook")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_banghook", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void set_banghook(LibPDBangHook hook) ;
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_floathook")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_floathook", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void set_floathook(LibPDFloatHook hook) ;
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_symbolhook")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_symbolhook", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void set_symbolhook(LibPDSymbolHook hook) ;
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_listhook")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_listhook", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void set_listhook(LibPDListHook hook) ;
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_messagehook")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_set_messagehook", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void set_messagehook(LibPDMessageHook hook) ;
 		
 		private static void SetupHooks()
@@ -183,19 +183,19 @@ namespace LibPDBinding
 			Symbol(recv, e);
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_is_float")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_is_float", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int atom_is_float(IntPtr a) ;
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_is_symbol")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_is_symbol", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int atom_is_symbol(IntPtr a) ;
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_get_float")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_get_float", CallingConvention = CallingConvention.Cdecl)]
 		private static extern float atom_get_float(IntPtr a) ;
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_get_symbol")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_get_symbol", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr atom_get_symbol(IntPtr a);
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_next_atom")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_next_atom", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr next_atom(IntPtr a);
 		
 		private static void RaiseListEvent(string recv, int argc, IntPtr argv)
@@ -257,7 +257,7 @@ namespace LibPDBinding
 		//store bindings
 		private static Dictionary<string, IntPtr> Bindings = new Dictionary<string, IntPtr>();
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_bind")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_bind", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr bind([In] [MarshalAs(UnmanagedType.LPStr)] string sym) ;
 
 		/// <summary>
@@ -279,7 +279,7 @@ namespace LibPDBinding
 			return true;
 		}
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_unbind")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_unbind", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void unbind(IntPtr p) ;
 
 		/// <summary>
@@ -299,7 +299,7 @@ namespace LibPDBinding
 		
 		//sending-----------------------------------------------------------
 				
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_bang")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_bang", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int send_bang([In] [MarshalAs(UnmanagedType.LPStr)] string recv) ;
 		
 		/// <summary>
@@ -315,7 +315,7 @@ namespace LibPDBinding
 		}
 
 				
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_float")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_float", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int send_float([In] [MarshalAs(UnmanagedType.LPStr)] string recv, float x) ;
 		
 		/// <summary>
@@ -332,7 +332,7 @@ namespace LibPDBinding
 		}
 		
 				
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_symbol")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_symbol", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int send_symbol([In] [MarshalAs(UnmanagedType.LPStr)] string recv, [In] [MarshalAs(UnmanagedType.LPStr)] string sym) ;
 		
 		/// <summary>
@@ -349,10 +349,10 @@ namespace LibPDBinding
 		}
 		
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_start_message")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_start_message", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int start_message(int max_length) ;
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_finish_message")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_finish_message", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int finish_message([In] [MarshalAs(UnmanagedType.LPStr)] string recv, [In] [MarshalAs(UnmanagedType.LPStr)] string msg) ;
 		
 		/// <summary>
@@ -381,7 +381,7 @@ namespace LibPDBinding
 		}
 
 
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_finish_list")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_finish_list", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  int finish_list([In] [MarshalAs(UnmanagedType.LPStr)] string recv) ;
 		
 		/// <summary>
@@ -411,10 +411,10 @@ namespace LibPDBinding
 		}
 		
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_add_float")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_add_float", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void add_float(float x) ;
 		
-		[DllImport("libpdcsharp.dll", EntryPoint="libpd_add_symbol")]
+		[DllImport("libpdcsharp.dll", EntryPoint="libpd_add_symbol", CallingConvention = CallingConvention.Cdecl)]
 		private static extern  void add_symbol([In] [MarshalAs(UnmanagedType.LPStr)] string sym) ;
 		
 		//parse args helper with debug string
