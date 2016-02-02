@@ -6,6 +6,7 @@
  */
 
 #include "z_jni.h"
+#include "z_jni_native_hooks.h"
 
 #include <pthread.h>
 #include <stdio.h>
@@ -40,11 +41,26 @@ static jmethodID midiByteMethod = NULL;
 
 #define LIBPD_CLASS_REF(c) (*env)->NewGlobalRef(env, (*env)->FindClass(env, c));
 
+int libpd_sync_init_audio(
+    int input_channels, int output_channels, int sample_rate) {
+  pthread_mutex_lock(&mutex);
+  int err = libpd_init_audio(input_channels, output_channels, sample_rate);
+  pthread_mutex_unlock(&mutex);
+  return err;
+}
+
+int libpd_sync_process_raw(const float *inBuf, float *outBuf) {
+  pthread_mutex_lock(&mutex);
+  int err = libpd_process_raw(inBuf, outBuf);
+  pthread_mutex_unlock(&mutex);
+  return err;
+}
+
 static jobjectArray makeJavaArray(JNIEnv *env, int argc, t_atom *argv) {
   jobjectArray jarray = (*env)->NewObjectArray(env, argc, objClass, NULL);
   int i;
   for (i = 0; i < argc; i++) {
-    t_atom a = argv[i];
+    t_atom *a = &argv[i];
     jobject obj = NULL;
     if (libpd_is_float(a)) {
       obj = (*env)->NewObject(env, floatClass, floatInit, libpd_get_float(a));
@@ -167,23 +183,20 @@ JNIEXPORT void JNICALL Java_org_puredata_core_PdBase_initialize
   floatClass = LIBPD_CLASS_REF("java/lang/Float");
   floatInit = (*env)->GetMethodID(env, floatClass, "<init>", "(F)V");
 
-  libpd_queued_printhook = (t_libpd_printhook) java_printhook;
-  libpd_queued_banghook = (t_libpd_banghook) java_sendBang;
-  libpd_queued_floathook = (t_libpd_floathook) java_sendFloat;
-  libpd_queued_symbolhook = (t_libpd_symbolhook) java_sendSymbol;
-  libpd_queued_listhook = (t_libpd_listhook) java_sendList;
-  libpd_queued_messagehook = (t_libpd_messagehook) java_sendMessage;
+  libpd_set_queued_printhook(java_printhook);
+  libpd_set_queued_banghook(java_sendBang);
+  libpd_set_queued_floathook(java_sendFloat);
+  libpd_set_queued_symbolhook(java_sendSymbol);
+  libpd_set_queued_listhook(java_sendList);
+  libpd_set_queued_messagehook(java_sendMessage);
 
-  libpd_queued_noteonhook = (t_libpd_noteonhook) java_sendNoteOn;
-  libpd_queued_controlchangehook =
-      (t_libpd_controlchangehook) java_sendControlChange;
-  libpd_queued_programchangehook =
-      (t_libpd_programchangehook) java_sendProgramChange;
-  libpd_queued_pitchbendhook = (t_libpd_pitchbendhook) java_sendPitchBend;
-  libpd_queued_aftertouchhook = (t_libpd_aftertouchhook) java_sendAftertouch;
-  libpd_queued_polyaftertouchhook =
-            (t_libpd_polyaftertouchhook) java_sendPolyAftertouch;
-  libpd_queued_midibytehook = (t_libpd_midibytehook) java_sendMidiByte;
+  libpd_set_queued_noteonhook(java_sendNoteOn);
+  libpd_set_queued_controlchangehook(java_sendControlChange);
+  libpd_set_queued_programchangehook(java_sendProgramChange);
+  libpd_set_queued_pitchbendhook(java_sendPitchBend);
+  libpd_set_queued_aftertouchhook(java_sendAftertouch);
+  libpd_set_queued_polyaftertouchhook(java_sendPolyAftertouch);
+  libpd_set_queued_midibytehook(java_sendMidiByte);
 }
 
 JNIEXPORT void JNICALL Java_org_puredata_core_PdBase_pollPdMessageQueue
@@ -193,7 +206,7 @@ JNIEXPORT void JNICALL Java_org_puredata_core_PdBase_pollPdMessageQueue
   cached_env = NULL;
 }
 
-JNIEXPORT void JNICALL Java_org_puredata_core_PdBase_pollMidiQueue
+JNIEXPORT void JNICALL Java_org_puredata_core_PdBase_pollMidiQueueInternal
 (JNIEnv *env, jclass cls) {
   cached_env = env;
   libpd_queued_receive_midi_messages();
@@ -405,7 +418,7 @@ static void deleteMidiHandlerRef(JNIEnv *env) {
   midiByteMethod = NULL;
 }
 
-JNIEXPORT void JNICALL Java_org_puredata_core_PdBase_setMidiReceiver
+JNIEXPORT void JNICALL Java_org_puredata_core_PdBase_setMidiReceiverInternal
 (JNIEnv *env, jclass cls, jobject handler) {
   deleteMidiHandlerRef(env);
   if (!handler) return;

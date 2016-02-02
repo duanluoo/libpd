@@ -19,11 +19,16 @@
 	NSString *pathName_;
 }
 
-@property (nonatomic, assign, readonly) int dollarZero;             // unique $0 argument assigned by pd
-@property (nonatomic, copy, readonly) NSString *baseName;           // stored file base name
-@property (nonatomic, copy, readonly) NSString *pathName;           // stored file path name
+@property (nonatomic, retain, readonly) NSValue *fileReference; //< underlying t_pd pointer
+@property (nonatomic, assign, readonly) int dollarZero;   //< unique $0 argument assigned by pd
+@property (nonatomic, copy, readonly) NSString *baseName; //< stored file base name
+@property (nonatomic, copy, readonly) NSString *pathName; //< stored file path name
 
-+ (id)openFileNamed:(NSString *)baseName path:(NSString *)pathName;	// open a pd file/patch and return a representative PdFile object
-- (void)closeFile;													// close an opened pd file (also called in dealloc)
+/// open a pd file/patch and return a representative PdFile object
++ (id)openFileNamed:(NSString *)baseName path:(NSString *)pathName;
+
+- (id)openNewInstance; //< open a new instance of an existing PdFile
+- (bool)isValid;       //< is the file reference valid? (aka non-nil)
+- (void)closeFile;     //< close an opened pd file (also called in dealloc)
 
 @end
